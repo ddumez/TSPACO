@@ -1,0 +1,14 @@
+
+# Change for the your filenames and the names of your tests
+file.names <- c("convergence/data-convergence-as.txt", "convergence/data-convergence-eas.txt", "convergence/data-convergence-ras.txt", "convergence/data-convergence-mmas.txt", "convergence/data-convergence-acs.txt")
+test.names <- c("as", "eas", "ras", "mmas", "acs")
+
+# Read data in a list with "names" as elements
+data <- list() 
+for(i in 1:length(file.names)){
+  data[[test.names[i]]] <- read.table(file=file.names[i], header=TRUE, sep=":")
+}
+
+
+source("convergence.R")
+do.lines.plot(data)
