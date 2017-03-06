@@ -26,12 +26,12 @@ long int max_tours;        //Maz tours
 long int tours=0;
 double alpha;
 double beta;
-double   rho;                
+double rho;
 long int n_ants;   
 long int seed = -1;
 
 vector<Ant> colony;
-Ant best_ant;
+Ant * best_ant;
 long int best_tour_length=LONG_MAX;     /* length of the shortest tour found */
 
 /*Default parameters: set them!*/
@@ -40,7 +40,7 @@ void setDefaultParameters(){
    beta=1;
    rho=0.2;
    n_ants=10;
-   max_iterations=0;
+   max_iterations=-1;
    max_tours=10000;
    instance_file=NULL;
    seed=seed = (long int) time(NULL);
@@ -211,20 +211,25 @@ void depositPheromone(){
 /*Check termination condition based on iterations or tours.
  One of the criteria must be active (=!0).*/
 bool terminationCondition(){
-	return (tours > max_tours) || (iterations > max_iterations);
+  if (max_iterations < 0) {
+    return (tours > max_tours);
+  } else {
+    return (tours > max_tours) || (iterations > max_iterations);
+  }
 }
 
 /*Free memory used*/
 void freeMemory(){
-  delete tsp;
   for(int i=0; i < tsp->getSize(); i++){
     delete[] pheromone[i];
     delete[] heuristic[i];
     delete[] probability[i];
   }
   delete[] pheromone;
-  delete[] heuristic;  
+  delete[] heuristic;
   delete[] probability;
+  delete tsp;
+
 }
 
 /*This function calls methods that MUST be implemented by you*/
@@ -256,7 +261,7 @@ int main(int argc, char *argv[] ){
 				 colony[i].ComputeTourLength();
          if(best_tour_length > colony[i].getTourLength()){
             best_tour_length = colony[i].getTourLength();
-            best_ant = colony[i];
+            best_ant = new Ant(colony.at(i));
          }
          tours++;
       }
@@ -266,7 +271,7 @@ int main(int argc, char *argv[] ){
       calculateProbability();
       iterations++;
    }
-   best_ant.print();
+   best_ant->print();
    freeMemory();   // Free memory.
-   cout << "\nEnd ACO execution\n" << endl;
+   cout << "\nEnd ACO execution.\n" << endl;
 }

@@ -69,7 +69,6 @@ Ant::Ant (Ant const& other){
   tour_length = other.tour_length;
   init=true;
   idum = other.idum;
-  
 }
 
 Ant::~Ant (){
@@ -89,12 +88,12 @@ long int Ant::Search(){
   for(i = 0; i<size; ++i) {visited[i] = false;}
 
   //choose the start city
-  parc = (int)(ran01(idum) * size);
+  parc = (int)(ran01(idum) * (double)(size));
   if (size == parc) {parc = size-1;}
   visited[parc] = true;
   tour[0] = parc;
 
-  i = 0;
+  i = 1;
   while(i<size) {
     //we are in the city parc
     //we need to compute normalized probability
@@ -108,14 +107,12 @@ long int Ant::Search(){
     acc = 0; j = 0;
 
     while ((acc < random) && (j<size) ) {
+    	while(visited[j]) {++j;} //skip visited city
       acc += probability[parc][j] / sum;
       ++j;
-      while(visited[j]) {++j;} //skip visited city
     }
-
     //go to the city j-1
-    --j; while(visited[j]) {--j;} //skip visited city
-cout<<"ville : "<<j<<endl;    
+    --j;
     parc = j;
     tour[i] = parc;
     visited[parc] = true;
