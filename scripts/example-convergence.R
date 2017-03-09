@@ -13,7 +13,7 @@ for(i in 1:length(file.names)){
 
 
 source("R-scripts/convergence.R")
-do.lines.plot(data)
+do.lines.plot(data, output="plot-convergence-algo.png")
 
 #
 # Example ants
@@ -30,4 +30,4 @@ for(i in 1:length(file.names)){
 
 
 source("R-scripts/convergence.R")
-do.lines.plot(data)
+do.lines.plot(data, output="plot-convergence-ant.png")

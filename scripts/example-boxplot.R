@@ -10,6 +10,6 @@ data      <- all.data[,-1, drop=FALSE] # Get the data
 
 #Plot details in the file boxplot.R
 source("R-scripts/boxplot.R")
-do.boxplot(data.matrix=data)
+do.boxplot(data.matrix=data, output="sample-acotsp.png")
 
 

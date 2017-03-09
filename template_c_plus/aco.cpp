@@ -31,7 +31,7 @@ long int n_ants;
 long int seed = -1;
 
 vector<Ant> colony;
-Ant * best_ant;
+Ant best_ant;
 long int best_tour_length=LONG_MAX;     /* length of the shortest tour found */
 
 /*Default parameters: set them!*/
@@ -195,7 +195,7 @@ void evaporatePheromone(){
 
   for (int i = 0 ; i < size ; i++ ) {
     for (int j = i  ; j < size ; j++ ) {
-      pheromone[i][j] = pheromone[i][j] * (1-rho);  /* symmetric TSP instances; hence phermone[i][j] = pheromone[j][i] */ 
+      pheromone[i][j] = pheromone[i][j] * (1.0-rho);  /* symmetric TSP instances; hence phermone[i][j] = pheromone[j][i] */ 
     	pheromone[j][i] = pheromone[i][j];
     }
   }
@@ -261,17 +261,17 @@ int main(int argc, char *argv[] ){
 				 colony[i].ComputeTourLength();
          if(best_tour_length > colony[i].getTourLength()){
             best_tour_length = colony[i].getTourLength();
-            best_ant = new Ant(colony.at(i));
+            best_ant = colony.at(i);
          }
          tours++;
       }
-
+      //cout<<tours<<":"<<best_tour_length<<endl;
       evaporatePheromone();
       depositPheromone();
       calculateProbability();
       iterations++;
    }
-   best_ant->print();
+   best_ant.print();
    freeMemory();   // Free memory.
    cout << "\nEnd ACO execution.\n" << endl;
 }

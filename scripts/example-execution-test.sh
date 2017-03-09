@@ -16,7 +16,7 @@ for i in {1..20}; do
   AUX="${i}" #number of trial
   for m in {5,10,20,50,100}; do
     #Execute the algorithm with the seed and the parameter and save the output file in a folder.
-    ./myAS -i ${instance} --tours 500 --ants ${m} --seed ${seed}  >  ${folder}/output-m${m}-${seed}.txt
+    ./../template_c_plus/aco --instance ${instance} --rho 0.5 --tours 500 --ants ${m} --seed ${seed}  >  ${folder}/output-m${m}-${seed}.txt
 
     #Read the output file and extract the best tour found
     SOL=$(cat ${folder}/output-m${m}-${seed}.txt | grep -o -E 'Best [-+0-9.e]+' | cut -d ' ' -f2)
@@ -31,4 +31,4 @@ for i in {1..20}; do
 done
 
 #Remove any unuseful file.....
-rm -rf stat* cmp* best*
+rm -rf stat* cmp* best* ./${folder}/output*

@@ -61,5 +61,5 @@ prof: run
 	$(PROF) $(PACKAGE) | less
 
 run: all
-	./$(PACKAGE) --tours 1000 --ants 10 --instance eil51.tsp 
+	./$(PACKAGE) --tours 1000 --ants 5 --instance eil51.tsp 
 

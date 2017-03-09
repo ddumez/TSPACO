@@ -25,7 +25,8 @@ class Ant{
        Ant();
        Ant(TSP* tsp_arg, double ** prob_info, long *idum);
        ~Ant();
-       Ant(Ant const& other); 
+       Ant(Ant const& other);
+       void operator=(Ant const& other);
        
        long int Search();
        void ComputeTourLength();
@@ -77,6 +78,26 @@ Ant::~Ant (){
     delete[] visited;
   }
   init=false;
+}
+
+void Ant::operator=(Ant const& other) {
+  if(init){
+    delete[] tour;
+    delete[] visited;
+  }
+
+  size = other.size;
+  tsp  = other.tsp;
+  probability = other.probability;
+  tour = new long int[size];
+  visited = new bool[size];
+  for(int i=0; i<size ; i++){
+     tour[i] = other.tour[i];
+     visited[i] = other.visited[i];
+  }
+  tour_length = other.tour_length;
+  init=true;
+  idum = other.idum; 
 }
 
 /*Generate tour using probabilities*/
@@ -148,11 +169,13 @@ void Ant::depositPheromone(double  ** pheromone) {
 }
 
 void Ant::print() {
-  cout<<"chemin : ";
+  /*cout<<"chemin : ";
   for(int i = 0; i<size; ++i) {
     cout<<tour[i]<<" ";
   }
   cout<<endl;
   this->ComputeTourLength();
-  cout<<"taille : "<<tour_length<<endl;
+  cout<<"taille : "<<tour_length<<endl;*/
+  this->ComputeTourLength();
+  cout<<"Best "<<tour_length<<endl;
 }
